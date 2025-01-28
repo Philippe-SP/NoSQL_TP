@@ -4,7 +4,7 @@ import pymongo
 
 # ----- Initialisation de la base données ----- #
 client = MongoClient("localhost", 27017)
-db = client["AutoDrive"]
+db = client["AutoDrive_Pinheiro"]
 
 # Création du schéma de validation
 company_schema = {
