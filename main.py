@@ -10,7 +10,7 @@ db = mongodb_client["AutoDrive_Pinheiro"]
 # Création de la collection timeseries
 timeseries_collection = db["timeseries"]
 
-# Création du schéma de validation
+# Création du schéma de validation pour la collection 'company'
 company_schema = {
     "bsonType": "object",
     "required": ["name", "city", "address", "founded_year", "fleet_size", "taxis"],
@@ -50,7 +50,7 @@ company_schema = {
     }
 }
 
-# Création de la collection company
+# Création de la collection 'company'
 try:
     company_collection = db.create_collection("company", validator = {"$jsonSchema": company_schema})
     print("Collection 'company' créée avec succès avec un schéma de validation.")
