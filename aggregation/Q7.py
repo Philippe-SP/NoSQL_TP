@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 
 # Récupération de la base de données et des collections
 mongodb_client = MongoClient("localhost", 27017)
