@@ -9,8 +9,8 @@ timeseries_collection = db["timeseries"]
 
 # Requete d'aggregation:
 #       Q1 : Comptez, par ville, le nombre d'entrées représentant les taxis en
-#       mouvement (avec des données récentes, par exemple dans la dernière
-#       heure).
+#            mouvement (avec des données récentes, par exemple dans la dernière
+#            heure).
 
 one_hour_ago = datetime.now(timezone.utc) - timedelta(hours=1) # Variable correspondant à la dernière heure
 
