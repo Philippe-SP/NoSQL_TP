@@ -10,24 +10,13 @@ timeseries_collection = db["timeseries"]
 # Q2: Le taxi qui s'est arrêté le plus de fois (avec les informations de son 
 #     entreprise)
 
-pipeline = [
+timeseries_pipeline = [
     {
-        "$lookup": {
-            "from": "timeseries", # collection de jointure
-            "localField": "taxis.license_plate", # Champs de la collection d'aggregation
-            "foreignField": "license_plate", # Champ de la collection de jointure
-            "as": "real_time_data" # Nom du resultat des deux collections
-        }
-    },
-    {
-        "$unwind": "$real_time_data" # Décomposition du resultat de la jointure pour la rendre utilisable
-    },
-    {
-        "$match": {"real_time_data.status": "stopped"}
+        "$match": {"status": "stopped"}
     },
     {
         "$group": {
-            "_id": "$real_time_data.license_plate", # Regroupement des taxis en fonction de leur plaque d'immatriculation
+            "_id": "license_plate", # Regroupement des taxis en fonction de leur plaque d'immatriculation
             "taxi_stopped_count": {"$sum": 1} # Nombre de fois où le taxi s'est arrété
         }
     },
@@ -36,9 +25,18 @@ pipeline = [
     },
     {
         "$limit": 1 # Récupération seulement du premier élément
+    },
+]
+
+timeseries_result = list(timeseries_collection.aggregate(timeseries_pipeline))
+
+company_pipeline = [
+    {
+        "$match": {"taxis.license_plate": timeseries_result[0]["_id"]} # Récupération des données de l'entreprise du taxi à la plaque "_id"
     }
 ]
 
-result = company_collection.aggregate(pipeline)
+company_result = company_collection.aggregate(company_pipeline)
+
 # Affichage du resultat
-print(list(result))
+print(list(company_result))
